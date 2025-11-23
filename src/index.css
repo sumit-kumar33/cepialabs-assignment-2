@@ -1,68 +1,250 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --danger: #ef4444;
+  --text: #0f172a;
+  --radius: 8px;
+  --gap: 20px;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+* {
+  box-sizing: border-box
 }
-a:hover {
-  color: #535bf2;
+
+html,
+body,
+#root {
+  height: 100%
 }
 
 body {
   margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout: stack products first, cart below */
+.shopping-cart {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  gap: var(--gap);
+  padding: 32px;
+  max-width: 1100px;
+  margin: 28px auto;
+  align-items: stretch;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.section-title {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.products,
+.cart {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.products {
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.cart {
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.product-list,
+.cart-items {
+  list-style: none;
+  padding: 0;
+  margin: 0
+}
+
+.product-item,
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: 6px;
+  transition: background .12s;
+}
+
+.product-item+.product-item,
+.cart-item+.cart-item {
+  margin-top: 8px
+}
+
+.product-item:hover {
+  background: rgba(37, 99, 235, 0.03)
+}
+
+.product-name {
+  font-weight: 600
+}
+
+.product-price {
+  color: var(--muted);
+  font-size: 0.95rem
+}
+
+.cart-summary {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  margin-bottom: 12px
+}
+
+.summary-item {
+  color: var(--muted)
+}
+
+.cart-empty {
+  color: var(--muted);
+  margin: 12px 0
+}
+
+.cart-item-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center
+}
+
+/* Allow the product info to shrink so the actions stay visible inside the card */
+.cart-item>div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+  /* important for overflowing flex children */
+  padding-right: 8px;
+}
+
+.cart-item-actions {
+  flex: 0 0 auto;
+}
+
+.btn-remove {
+  flex-shrink: 0;
+}
+
+.line-total {
+  font-weight: 600
+}
+
+.btn {
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  font-weight: 600;
 }
 
-@media (prefers-color-scheme: light) {
+.btn:active {
+  transform: translateY(1px)
+}
+
+.btn-add {
+  background: var(--accent);
+  color: #fff
+}
+
+.btn-remove {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.12)
+}
+
+.btn-qty {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  min-width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px
+}
+
+.qty {
+  min-width: 26px;
+  text-align: center;
+  font-weight: 700
+}
+
+@media (max-width:880px) {
+  .shopping-cart {
+    padding: 18px
+  }
+
+  .products,
+  .cart {
+    width: 100%;
+    flex-basis: 100%;
+  }
+}
+
+/* Dark mode: follow user preference, plus a `.dark` class to force */
+@media (prefers-color-scheme: dark) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --bg: #0b1220;
+    --card: #0f1724;
+    --muted: #94a3b8;
+    --accent: #60a5fa;
+    --danger: #fb7185;
+    --text: #e6eef8;
+    --radius: 8px;
+    --gap: 20px;
   }
-  a:hover {
-    color: #747bff;
+
+  body {
+    background: var(--bg);
+    color: var(--text);
   }
-  button {
-    background-color: #f9f9f9;
+
+  .products,
+  .cart {
+    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
   }
+
+  .product-item:hover {
+    background: rgba(96, 165, 250, 0.04);
+  }
+
+  .btn-add {
+    background: var(--accent);
+    color: #06203a
+  }
+
+  .btn-remove {
+    border-color: rgba(251, 113, 133, 0.12);
+    color: var(--danger)
+  }
+  .btn-qty {
+    border: 1px solid var(--text);
+    color: var(--text);
+  }
+}
+
+/* Manual dark class override (apply to <body> to force) */
+.dark {
+  --bg: #0b1220;
+  --card: #0f1724;
+  --muted: #94a3b8;
+  --accent: #60a5fa;
+  --danger: #fb7185;
+  --text: #e6eef8;
 }
